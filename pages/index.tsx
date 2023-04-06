@@ -5,7 +5,7 @@ import Nav from "./components/Nav";
 import Card from "./components/Card";
 
 //files
-import { fetchPosts } from "./../utils/data";
+import { fetchPosts } from "../utils/data";
 import { Post } from "./../typings";
 
 //interface

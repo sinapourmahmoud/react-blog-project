@@ -11,7 +11,7 @@ interface Props {
 }
 const Card: React.FC<Props> = ({ item }) => {
   return (
-    <Link href={`/posts/${item?.slug}`}>
+    <Link href={`/posts/${item?.slug?.current}`}>
       <div className="flex flex-col gap-2 col-span-1 cursor-pointer">
         <div className="rounded-lg w-auto overflow-hidden">
           <img

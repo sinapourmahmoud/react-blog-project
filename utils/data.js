@@ -26,3 +26,25 @@ export const fetchPosts = `*[_type== "post"]{
   
       
   }`;
+export const fetchPostDetail = (slugPath) => {
+  return `*[_type == "post" && slug.current == '${slugPath}']{
+    _id,
+       mainImage{
+        asset->{
+          url
+        }
+      },
+       author->{
+            _id,
+            name,
+            image{
+              asset->{
+          url
+        }
+            }
+          },
+  body,
+    publishedAt
+  
+  }`;
+};

@@ -1,34 +1,38 @@
-export const fetchPosts = `*[_type== "post"]{
-    _id,
-    title,
-      mainImage{
-      asset->{
-        url
-      }
-    },
-    slug{
-      current
-      
-    },
-    author->{
-          _id,
-          name,
-          image{
-            asset->{
-        url
-      }
-          }
-        },
-      description
-    
-    
-    
-  
-      
-  }`;
 export const fetchPostDetail = (slugPath) => {
-  return `*[_type == "post" && slug.current == '${slugPath}']{
+  if (!slugPath) {
+    return `*[_type== "post"]{
+      _id,
+      title,
+      
+        mainImage{
+        asset->{
+          url
+        }
+      },
+      slug{
+        current
+        
+      },
+      author->{
+            _id,
+            name,
+            image{
+              asset->{
+          url
+        }
+            }
+          },
+        description
+      
+      
+      
+    
+        
+    }`;
+  } else {
+    return `*[_type == "post" && slug.current == '${slugPath}']{
     _id,
+    slug{current},
        mainImage{
         asset->{
           url
@@ -43,8 +47,11 @@ export const fetchPostDetail = (slugPath) => {
         }
             }
           },
+          description,
   body,
-    publishedAt
-  
+    publishedAt,
+    _createdAt,
+  title
   }`;
+  }
 };

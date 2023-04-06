@@ -5,7 +5,7 @@ import Nav from "./components/Nav";
 import Card from "./components/Card";
 
 //files
-import { fetchPosts } from "../utils/data";
+import { fetchPostDetail } from "../utils/data";
 import { Post } from "./../typings";
 
 //interface
@@ -44,7 +44,7 @@ const index: React.FC<Props> = ({ posts }) => {
   );
 };
 export const getServerSideProps = async () => {
-  let posts = await client.fetch(fetchPosts);
+  let posts = await client.fetch(fetchPostDetail());
   return {
     props: {
       posts,

@@ -1,12 +1,15 @@
 export interface Post {
   _id: string;
   title: string;
+  body: Array;
   author: {
     _id: string;
-    image: Array;
+    image: { asset: { url: string } };
     name: string;
   };
+  _createdAt: string;
   description: string;
-  mainImage: object;
+  mainImage: { asset: { url: string } };
+  publishedAt: string;
   slug: { current: string };
 }

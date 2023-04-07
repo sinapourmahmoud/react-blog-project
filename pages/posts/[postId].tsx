@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 //components
 import Nav from "../components/Nav";
 
@@ -20,10 +20,16 @@ interface PostDetail {
     current: string;
   };
 }
+
+//this page post interface
+interface DetailPost extends Post {
+  comments: string[];
+}
 interface Props {
-  post: Post[];
+  post: DetailPost[];
 }
 const singlepost: React.FC<Props> = ({ post }) => {
+  let [sendComment, setSendComment] = useState<Boolean>(false);
   const {
     register,
     handleSubmit,
@@ -38,6 +44,7 @@ const singlepost: React.FC<Props> = ({ post }) => {
     })
       .then((res) => res.json())
       .then((resData) => {
+        setSendComment(true);
         console.log(resData);
       })
       .catch((err) => {
@@ -90,59 +97,70 @@ const singlepost: React.FC<Props> = ({ post }) => {
           }}
         />
         <div className="max-w-2xl mx-auto">
-          <p className="text-2xl font-bold mt-3">Leave a comment below!</p>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              type="hidden"
-              name="_id"
-              value={post[0]._id}
-              {...register("_id")}
-            />
-            <label>
-              <span className="text-gray-700">Name</span>
-              <input
-                {...register("name", { required: true })}
-                type="text"
-                className="w-full shadow border block form-input focus:ring-yellow-500 focus:ring ring-0 rounded-md outline-none py-2 px-3"
-                placeholder="Sina ..."
-              />
-            </label>
-            <label className="block my-5">
-              <span className="text-gray-700">Email</span>
-              <input
-                {...register("email", { required: true })}
-                type="email"
-                className="w-full shadow border block form-input focus:ring-yellow-500 focus:ring ring-0 rounded-md outline-none py-2 px-3"
-                placeholder="Sina@gmail.com"
-              />
-            </label>
-            <label>
-              <span className="text-gray-700">Text</span>
-              <textarea
-                {...register("comment", { required: true })}
-                rows={8}
-                className="w-full shadow border block form-input focus:ring-yellow-500 focus:ring ring-0 rounded-md outline-none py-2 px-3"
-                placeholder="example text"
-              ></textarea>
-            </label>
-            <div className="flex flex-col gap-2 mt-3">
-              {errors.name && (
-                <span className="text-red-500">Name in required</span>
-              )}
-              {errors.email && (
-                <span className="text-red-500">Email in required</span>
-              )}
-              {errors.comment && (
-                <span className="text-red-500">Comment in required</span>
-              )}
+          {sendComment ? (
+            <div className="bg-yellow-500 my-10 p-10 max-w-2xl mx-auto rounded-lg flex flex-col gap-2">
+              <h3 className="text-2xl font-bold text-white">
+                Thanks for sending email!!
+              </h3>
+              <p className="text-white text-lg ">
+                Once it have been approved , it will show for you
+              </p>
             </div>
-            <button
-              type="submit"
-              className="bg-yellow-500 text-white my-3 w-full py-3 rounded-xl"
-            >
-              Send Comment
-            </button>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <p className="text-2xl font-bold mt-3">Leave a comment below!</p>
+              <input
+                type="hidden"
+                name="_id"
+                value={post[0]._id}
+                {...register("_id")}
+              />
+              <label>
+                <span className="text-gray-700">Name</span>
+                <input
+                  {...register("name", { required: true })}
+                  type="text"
+                  className="w-full shadow border block form-input focus:ring-yellow-500 focus:ring ring-0 rounded-md outline-none py-2 px-3"
+                  placeholder="Sina ..."
+                />
+              </label>
+              <label className="block my-5">
+                <span className="text-gray-700">Email</span>
+                <input
+                  {...register("email", { required: true })}
+                  type="email"
+                  className="w-full shadow border block form-input focus:ring-yellow-500 focus:ring ring-0 rounded-md outline-none py-2 px-3"
+                  placeholder="Sina@gmail.com"
+                />
+              </label>
+              <label>
+                <span className="text-gray-700">Text</span>
+                <textarea
+                  {...register("comment", { required: true })}
+                  rows={8}
+                  className="w-full shadow border block form-input focus:ring-yellow-500 focus:ring ring-0 rounded-md outline-none py-2 px-3"
+                  placeholder="example text"
+                ></textarea>
+              </label>
+              <div className="flex flex-col gap-2 mt-3">
+                {errors.name && (
+                  <span className="text-red-500">Name in required</span>
+                )}
+                {errors.email && (
+                  <span className="text-red-500">Email in required</span>
+                )}
+                {errors.comment && (
+                  <span className="text-red-500">Comment in required</span>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="bg-yellow-500 text-white my-3 w-full py-3 rounded-xl"
+              >
+                Send Comment
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
@@ -150,7 +168,8 @@ const singlepost: React.FC<Props> = ({ post }) => {
 };
 export const getStaticPaths = async () => {
   let query = `*[_type == "post"]{
-        slug{current}
+        slug{current},
+        _id
       }`;
   let posts: PostDetail[] = await client.fetch(query);
   let postPaths = posts.map((item) => {
@@ -163,6 +182,7 @@ export const getStaticPaths = async () => {
 };
 export const getStaticProps = async (context: any) => {
   let post = await client.fetch(fetchPostDetail(context.params.postId));
+
   return {
     props: {
       post,

@@ -18,6 +18,7 @@ export const config = {
    **/
   useCdn: process.env.NODE_ENV === "production",
   token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
+  ignoreBrowserTokenWarning: true,
 };
 export const client = createClient(config);
 export const urlFor = (source) => createImageUrlBuilder(config).image(source);

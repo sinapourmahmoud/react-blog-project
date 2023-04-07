@@ -163,12 +163,20 @@ const singlepost: React.FC<Props> = ({ post }) => {
           )}
           <div className="mt-5 bg-white w-full shadow shadow-yellow-500 p-5 rounded-lg">
             <h2 className="text-2xl mb-5">Comments</h2>
-            {post[0].comments.map((comment, index) => (
-              <p className="mt-3">
-                <span className="text-yellow-500 mr-2">{comment.name} :</span>
-                {comment.comment}
-              </p>
-            ))}
+            {post[0].comments.length ? (
+              <>
+                {post[0].comments.map((comment, index) => (
+                  <p className="mt-3" key={index}>
+                    <span className="text-yellow-500 mr-2">
+                      {comment.name} :
+                    </span>
+                    {comment.comment}
+                  </p>
+                ))}
+              </>
+            ) : (
+              <p className="text-2xl">No comments yet</p>
+            )}
           </div>
         </div>
       </div>

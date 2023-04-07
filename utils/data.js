@@ -31,7 +31,7 @@ export const fetchPostDetail = (slugPath) => {
     }`;
   } else {
     return `*[_type == "post" && slug.current == '${slugPath}']{
-      "comments" : *[_type=="comment" && post._ref==^._id]{
+      "comments" : *[_type=="comment" && post._ref==^._id && approved==true]{
         name,
           comment,
           email

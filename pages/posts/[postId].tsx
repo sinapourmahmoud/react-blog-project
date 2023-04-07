@@ -15,7 +15,7 @@ interface Iform {
   name: string;
   comment: string;
 }
-interface PostDetail {
+interface PostSlug {
   slug: {
     current: string;
   };
@@ -96,7 +96,7 @@ const singlepost: React.FC<Props> = ({ post }) => {
             ),
           }}
         />
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto py-5">
           {sendComment ? (
             <div className="bg-yellow-500 my-10 p-10 max-w-2xl mx-auto rounded-lg flex flex-col gap-2">
               <h3 className="text-2xl font-bold text-white">
@@ -161,6 +161,15 @@ const singlepost: React.FC<Props> = ({ post }) => {
               </button>
             </form>
           )}
+          <div className="mt-5 bg-white w-full shadow shadow-yellow-500 p-5 rounded-lg">
+            <h2 className="text-2xl mb-5">Comments</h2>
+            {post[0].comments.map((comment, index) => (
+              <p className="mt-3">
+                <span className="text-yellow-500 mr-2">{comment.name} :</span>
+                {comment.comment}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -171,7 +180,7 @@ export const getStaticPaths = async () => {
         slug{current},
         _id
       }`;
-  let posts: PostDetail[] = await client.fetch(query);
+  let posts: PostSlug[] = await client.fetch(query);
   let postPaths = posts.map((item) => {
     return { params: { postId: `${item.slug.current}` } };
   });

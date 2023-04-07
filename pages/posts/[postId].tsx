@@ -9,6 +9,7 @@ import PortableText from "react-portable-text";
 import { useForm, SubmitHandler } from "react-hook-form";
 //postInterfaces
 import { Post } from "@/typings";
+import Head from "next/head";
 interface Iform {
   _id: string;
   email: string;
@@ -54,6 +55,9 @@ const singlepost: React.FC<Props> = ({ post }) => {
 
   return (
     <div>
+      <Head>
+        <title>Posts|{post[0].title}</title>
+      </Head>
       <Nav />
       <img
         src={urlFor(post[0].mainImage.asset.url).url()}

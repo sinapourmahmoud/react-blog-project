@@ -13,10 +13,14 @@ interface Props {
   posts: Post[];
 }
 import { client } from "./../sanity";
+import Head from "next/head";
 const index: React.FC<Props> = ({ posts }) => {
   console.log(posts);
   return (
     <div className="max-w-7xl mx-auto py-6">
+      <Head>
+        <title>Blog app</title>
+      </Head>
       <Nav />
       <div className="flex justify-between items-center bg-yellow-400 rounded-sm px-2 md:px-5 py-3 lg:py-0 border-y border-black">
         <div className="flex flex-col gap-2">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 //components
-import Nav from "../components/Nav";
+import Nav from "../../components/Nav";
 
 //assets
 import { client, urlFor } from "@/sanity";

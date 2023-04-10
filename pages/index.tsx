@@ -1,8 +1,8 @@
 import React from "react";
 
 //components
-import Nav from "./components/Nav";
-import Card from "./components/Card";
+import Nav from "../components/Nav";
+import Card from "../components/Card";
 
 //files
 import { fetchPostDetail } from "../utils/data";
